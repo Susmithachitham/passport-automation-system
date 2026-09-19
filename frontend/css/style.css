@@ -1,0 +1,112 @@
+body {
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #f8fafc;
+}
+
+.button-primary,
+.button-secondary,
+.button-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    padding: 0.8rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.button-primary {
+    background: #123b76;
+    color: white;
+    box-shadow: 0 8px 18px rgba(18, 59, 118, 0.18);
+}
+
+.button-primary:hover {
+    background: #0e2f60;
+    transform: translateY(-1px);
+}
+
+.button-secondary {
+    background: #e6f5f4;
+    color: #125c63;
+}
+
+.button-secondary:hover {
+    background: #d2edeb;
+    transform: translateY(-1px);
+}
+
+.button-ghost {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.field-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: #334155;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.field-input {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    color: #0f172a;
+    outline: none;
+}
+
+.field-input:focus {
+    border-color: #1d70a2;
+    box-shadow: 0 0 0 3px rgba(29, 112, 162, 0.14);
+}
+
+.message {
+    margin-top: 1.25rem;
+    border-radius: 0.75rem;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+}
+
+.message.error {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.message.success {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.dashboard-shell {
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.summary-card,
+.application-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.04);
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+.status-draft { background: #e2e8f0; color: #334155; }
+.status-submitted { background: #dbeafe; color: #1d4ed8; }
+.status-processing { background: #fef3c7; color: #b45309; }
+.status-approved { background: #dcfce7; color: #166534; }
+.status-rejected { background: #fee2e2; color: #991b1b; }

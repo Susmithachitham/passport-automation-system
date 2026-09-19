@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Passport Automation System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <main class="flex min-h-screen items-center justify-center px-6 py-12">
+        <section class="w-full max-w-2xl rounded-3xl bg-white p-8 shadow-xl shadow-slate-200/70 ring-1 ring-slate-200 md:p-10">
+            <a class="text-sm font-semibold text-blue-800" href="/">&larr; Passport Automation System</a>
+            <h1 class="mt-8 text-3xl font-bold text-slate-950">Create your account</h1>
+            <p class="mt-2 text-slate-600">Register as an applicant to begin.</p>
+            <div id="form-message" class="message hidden" role="alert"></div>
+            <form id="register-form" class="mt-8 grid gap-5 md:grid-cols-2" novalidate>
+                <label class="field-label">Full name<input class="field-input" name="full_name" autocomplete="name" required></label>
+                <label class="field-label">Email<input class="field-input" name="email" type="email" autocomplete="email" required></label>
+                <label class="field-label">Password<input class="field-input" name="password" type="password" minlength="8" autocomplete="new-password" required></label>
+                <label class="field-label">Phone<input class="field-input" name="phone" type="tel" autocomplete="tel" required></label>
+                <label class="field-label md:col-span-2">Address<textarea class="field-input min-h-28" name="address" autocomplete="street-address" required></textarea></label>
+                <button class="button-primary md:col-span-2" type="submit">Create account</button>
+            </form>
+            <p class="mt-7 text-center text-sm text-slate-600">Already registered? <a class="font-semibold text-blue-800" href="/login.html">Log in</a></p>
+        </section>
+    </main>
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>
