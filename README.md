@@ -2,7 +2,7 @@
 
 ## Project Description
 
-The Passport Automation System is a Flask and MySQL application for managing passport applications, applicant documents, mock payments, application status tracking, Officer and Police review, and simulated passport generation. It currently delivers complete, verified Phase 1 through Phase 5 functionality.
+The Passport Automation System is a Flask and MySQL application for managing passport applications, applicant documents, mock payments, Officer and Police review, simulated passport generation, and Admin passport dispatch. It currently delivers complete, verified Phase 1 through Phase 6 functionality.
 
 ## Problem Statement
 
@@ -28,7 +28,7 @@ Passport applications often rely on fragmented forms, manual document handling, 
 
 ## User Roles
 
-The data model supports `applicant`, `officer`, `police`, and `admin` roles. Applicant, Officer, Police, and Admin-only passport generation workflows are implemented; dispatch and later workflows are reserved for future phases.
+The data model supports `applicant`, `officer`, `police`, and `admin` roles. Applicant, Officer, Police, passport generation, and Admin dispatch workflows are implemented; final integration and deployment are reserved for Phase 7.
 
 ## Technology Stack
 
@@ -48,10 +48,10 @@ The data model supports `applicant`, `officer`, `police`, and `admin` roles. App
 - ✅ COMPLETE: Phase 3 - Passport Officer Module, including live verification
 - ✅ COMPLETE: Phase 4 - Police Verification Module, including live verification
 - ✅ COMPLETE: Phase 5 - Passport Generation Module, including live verification
-- ⏳ NOT STARTED: Phase 6 - Admin / Passport Dispatch
+- ✅ COMPLETE: Phase 6 - Admin Passport Dispatch, including live verification
 - ⏳ NOT STARTED: Phase 7 - Final Integration, Security, and Testing
 
-Phase 2 verification completed 20 automated tests and a live applicant flow. Phase 3 adds 21 Officer tests and a live Officer flow through document verification, interview completion, and `POLICE_VERIFICATION` forwarding. Phase 4 adds 15 Police tests and live CLEAR/NOT_CLEAR verification flows. Phase 5 adds 14 Passport Generation tests and live Admin generation/retrieval verification.
+Phase 2 verification completed 20 automated tests and a live applicant flow. Phase 3 adds 21 Officer tests and a live Officer flow through document verification, interview completion, and `POLICE_VERIFICATION` forwarding. Phase 4 adds 15 Police tests and live CLEAR/NOT_CLEAR verification flows. Phase 5 adds 14 Passport Generation tests and live Admin generation/retrieval verification. Phase 6 adds 12 Dispatch tests and live Admin dispatch verification.
 
 ## Project Structure
 
@@ -97,7 +97,7 @@ Use `.env.example` as the safe template. Set a strong local `SECRET_KEY`, databa
 
 ## Database Setup
 
-`database/schema.sql` creates the `passport_automation` database and the `users`, `applications`, `documents`, `payments`, `interviews`, `police_verifications`, and `passports` tables. Phase 3, Phase 4, and Phase 5 also add non-destructive workflow fields. `database/seed.py` creates or refreshes local demo users and hashes their passwords; it requires the four `DEMO_*_PASSWORD` variables to be set.
+`database/schema.sql` creates the `passport_automation` database and the `users`, `applications`, `documents`, `payments`, `interviews`, `police_verifications`, `passports`, and `dispatches` tables. Phases 3 through 6 add non-destructive workflow fields. `database/seed.py` creates or refreshes local demo users and hashes their passwords; it requires the four `DEMO_*_PASSWORD` variables to be set.
 
 ## Run Backend and Tests
 
@@ -165,6 +165,15 @@ Police endpoints are under `/api/police` and require an authenticated `police` s
 - `GET /api/police/applications/<application_id>/verification`
 - `POST/PUT /api/police/applications/<application_id>/verification`
 
+Admin dispatch endpoints are under `/api/admin/dispatch`:
+
+- `GET /api/admin/dispatch/dashboard`
+- `GET /api/admin/dispatch`
+- `GET /api/admin/dispatch/eligible`
+- `GET /api/admin/dispatch/<application_id>`
+- `POST /api/admin/dispatch/<application_id>`
+- `GET /api/dispatch/<application_id>` for the owning Applicant or Admin
+
 Passport Generation endpoints are under `/api/admin/passports` and require an authenticated `admin` session:
 
 - `GET /api/admin/passports/eligible`
@@ -178,10 +187,10 @@ Passport Generation endpoints are under `/api/admin/passports` and require an au
 - ✅ COMPLETE: Phase 3 - Passport Officer Module
 - ✅ COMPLETE: Phase 4 - Police Verification Module
 - ✅ COMPLETE: Phase 5 - Passport Generation Module
-- ⏳ NOT STARTED: Phase 6 - Admin / Passport Dispatch
+- ✅ COMPLETE: Phase 6 - Admin Passport Dispatch
 - ⏳ NOT STARTED: Phase 7 - Final Integration, Security, and Testing
 
-Do not claim or implement Phase 6 or later work without an explicit project decision. Phase 5 does not include dispatch.
+Do not claim or implement Phase 7 work without an explicit project decision. Phase 6 ends at `PASSPORT_DISPATCHED` and does not include deployment or final integration.
 
 ## Collaboration Instructions
 
@@ -196,4 +205,4 @@ Recommended branch names include `feature/phase-3-officer-module`, `feature/phas
 
 ## Future Development Roadmap
 
-Future work is intentionally not implemented yet: passport dispatch, then final integration, security hardening, and broader testing.
+Future work is intentionally not implemented yet: final integration, security hardening, deployment, and broader testing.

@@ -111,3 +111,20 @@ CREATE TABLE IF NOT EXISTS passports (
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_passports_application FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS dispatches (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    application_id INT UNSIGNED NOT NULL UNIQUE,
+    passport_id INT UNSIGNED NOT NULL UNIQUE,
+    dispatched_by_id INT UNSIGNED NOT NULL,
+    dispatch_date TIMESTAMP NOT NULL,
+    courier_name VARCHAR(120) NOT NULL,
+    tracking_number VARCHAR(120) NOT NULL,
+    delivery_method VARCHAR(40) NOT NULL,
+    dispatch_remarks TEXT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_dispatches_application FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
+    CONSTRAINT fk_dispatches_passport FOREIGN KEY (passport_id) REFERENCES passports(id) ON DELETE CASCADE,
+    CONSTRAINT fk_dispatches_user FOREIGN KEY (dispatched_by_id) REFERENCES users(id)
+);

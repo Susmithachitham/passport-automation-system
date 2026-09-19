@@ -41,6 +41,7 @@ class Application(db.Model):
     applicant = db.relationship("User", foreign_keys=[applicant_id], backref="applications")
     police_verification = db.relationship("PoliceVerification", back_populates="application", uselist=False, cascade="all, delete-orphan")
     passport = db.relationship("Passport", back_populates="application", uselist=False, cascade="all, delete-orphan")
+    dispatch = db.relationship("Dispatch", back_populates="application", uselist=False, cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
@@ -66,4 +67,5 @@ class Application(db.Model):
             "interviews": [interview.to_dict() for interview in self.interviews],
             "police_verification": self.police_verification.to_dict() if self.police_verification else None,
             "passport": self.passport.to_dict() if self.passport else None,
+            "dispatch": self.dispatch.to_dict() if self.dispatch else None,
         }

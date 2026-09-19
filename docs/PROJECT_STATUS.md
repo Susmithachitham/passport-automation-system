@@ -165,19 +165,60 @@ Live verification:
 - Police generation/retrieval denied: `403` / `403`
 - Final application status: `PASSPORT_GENERATED`
 
+### Phase 6
+
+Status: **COMPLETE + VERIFIED**
+
+Implemented features:
+
+- Admin dispatch dashboard with database-backed statistics.
+- Admin dispatch queue with search, status filtering, sorting, and pagination.
+- Dispatch review page with applicant, passport, Police verification, and dispatch information.
+- Dispatch model with one record per application and one record per Passport.
+- Server-generated dispatch timestamp and authenticated Admin audit identity.
+- Courier, tracking number, delivery method, and remarks validation.
+- Atomic dispatch creation and `PASSPORT_DISPATCHED` status transition.
+- Duplicate dispatch protection.
+- Applicant-owned read-only dispatch retrieval.
+- Applicant passport page now shows awaiting-dispatch or dispatched state and read-only dispatch details.
+- Officer and Police dispatch mutations denied.
+- No courier API, notifications, deployment, or Phase 7 functionality added.
+- 12 automated Dispatch Module tests.
+
+Automated tests:
+
+- **12 Phase 6 tests passed**
+- **82 total tests passed** across Phases 1 through 6
+
+Live verification:
+
+- Health endpoint: `200`
+- Admin login: `200`
+- Dispatch dashboard: `200`
+- Dispatch queue: `200`
+- Dispatch details: `200`
+- Dispatch creation: `201`
+- Server-generated dispatch date recorded.
+- Duplicate dispatch: `409`
+- Dispatch history/details: `200`
+- Applicant dispatch retrieval: `200`
+- Applicant target status: `PASSPORT_DISPATCHED`
+- Officer dispatch attempt: `403`
+- Police dispatch attempt: `403`
+
 ## Current Phase
 
-Phase 6 — Admin / Passport Dispatch
+Phase 7 — Final Integration / Deployment
 
 Status: **NOT STARTED**
 
-Phase 5 is complete and verified. Phase 6 must not begin until explicitly approved.
+Phase 6 is complete and verified. Phase 7 must not begin until explicitly approved.
 
 ## Upcoming Phases
 
 - Phase 4 — Police Verification: **COMPLETE + VERIFIED**
 - Phase 5 — Passport Generation: **COMPLETE + VERIFIED**
-- Phase 6 — Admin / Passport Dispatch: **NOT STARTED**
+- Phase 6 — Admin / Passport Dispatch: **COMPLETE + VERIFIED**
 - Phase 7 — Integration, Security & Testing: **NOT STARTED**
 
 ## Important Rules
@@ -192,7 +233,7 @@ Phase 5 is complete and verified. Phase 6 must not begin until explicitly approv
 - Run all tests before creating a Pull Request.
 - Do not directly modify another person's branch.
 - Use feature branches.
-- Do not begin Phase 6 or later work without explicit approval.
+- Do not begin Phase 7 work without explicit approval.
 
 ## Known Non-Blocking Warnings
 

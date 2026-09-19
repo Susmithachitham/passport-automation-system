@@ -23,6 +23,7 @@ class Passport(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), nullable=False, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
     application = db.relationship("Application", back_populates="passport")
+    dispatch = db.relationship("Dispatch", back_populates="passport", uselist=False, cascade="all, delete-orphan")
 
     def to_dict(self):
         return {

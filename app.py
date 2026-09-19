@@ -11,6 +11,7 @@ from backend.routes.auth_routes import auth_bp
 from backend.routes.officer_routes import officer_bp
 from backend.routes.police_routes import police_bp
 from backend.routes.passport_routes import passport_bp
+from backend.routes.dispatch_routes import dispatch_bp
 
 
 def _ensure_officer_columns():
@@ -54,6 +55,7 @@ def create_app(config_object=None):
     app.register_blueprint(officer_bp, url_prefix="/api/officer")
     app.register_blueprint(police_bp, url_prefix="/api/police")
     app.register_blueprint(passport_bp, url_prefix="/api")
+    app.register_blueprint(dispatch_bp, url_prefix="/api")
 
     upload_dir = app.config.get("UPLOAD_FOLDER", os.path.join(os.getcwd(), "uploads", "documents"))
     os.makedirs(upload_dir, exist_ok=True)
