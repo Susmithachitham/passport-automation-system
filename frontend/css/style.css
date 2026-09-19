@@ -110,3 +110,31 @@ body {
 .status-processing { background: #fef3c7; color: #b45309; }
 .status-approved { background: #dcfce7; color: #166534; }
 .status-rejected { background: #fee2e2; color: #991b1b; }
+
+/* Responsive tables and overflow protection */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.table-responsive table {
+    min-width: 640px;
+}
+
+/* Ensure no horizontal overflow on small screens */
+html, body {
+    overflow-x: hidden;
+}
+img, table {
+    max-width: 100%;
+}
+
+/* Improve form layout on mobile */
+@media (max-width: 640px) {
+    .button-primary, .button-secondary, .button-ghost {
+        width: 100%;
+        justify-content: center;
+    }
+    .summary-card {
+        padding: 1rem;
+    }
+}

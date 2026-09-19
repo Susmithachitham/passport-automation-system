@@ -34,13 +34,13 @@ async function fetchDashboardData() {
                     : app.status === 'REJECTED'
                         ? 'status-rejected'
                         : 'status-approved';
-
+            const hasStatusPage = true;
             return `
                 <div class="application-card p-4">
                     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                        <div>
-                            <div class="flex items-center gap-3">
-                                <span class="text-lg font-bold text-slate-900">${app.application_id}</span>
+                        <div class="min-w-0 flex-1">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <span class="text-lg font-bold text-slate-900 truncate">${app.application_id}</span>
                                 <span class="status-pill ${badgeClass}">${app.status}</span>
                             </div>
                             <div class="mt-2 flex flex-wrap gap-4 text-sm text-slate-500">
@@ -49,17 +49,17 @@ async function fetchDashboardData() {
                                 <span>Last Updated: ${new Date(app.updated_at || app.created_at).toLocaleDateString()}</span>
                             </div>
                         </div>
-                        ${app.passport ? `<a class="button-secondary" href="/passport-details.html?application_id=${app.application_id}">View Passport</a>` : `<button class="button-secondary" data-application-id="${app.application_id}">View Details</button>`}
+                        <div class="flex flex-wrap gap-2 shrink-0">
+                            <a class="button-secondary !px-4 !py-2 text-sm" href="/application-details.html?application_id=${encodeURIComponent(app.application_id)}">Track Status</a>
+                            ${app.passport ? `<a class="button-ghost !px-4 !py-2 text-sm" href="/passport-details.html?application_id=${encodeURIComponent(app.application_id)}">Passport</a>` : ''}
+                            ${app.status === 'DRAFT' ? `<a class="button-ghost !px-4 !py-2 text-sm" href="/application-form.html?application_id=${encodeURIComponent(app.application_id)}">Edit</a>` : ''}
+                        </div>
                     </div>
                 </div>
             `;
         }).join('');
 
-        container.querySelectorAll('[data-application-id]').forEach((button) => {
-            button.addEventListener('click', () => {
-                window.location.href = `/application-details.html?application_id=${button.dataset.applicationId}`;
-            });
-        });
+        // Legacy handler retained for compatibility; new links use anchor tags directly
     } catch (error) {
         document.getElementById('applications-container').innerHTML = `
             <div class="rounded-2xl border border-red-200 bg-red-50 p-6 text-red-700">

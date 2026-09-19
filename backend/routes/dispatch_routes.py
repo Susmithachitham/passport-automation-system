@@ -7,6 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from backend.extensions import db
 from backend.models.application import Application
 from backend.models.dispatch import Dispatch
+from backend.models.user import User
 from backend.utils.auth import login_required, role_required
 
 dispatch_bp = Blueprint("dispatch", __name__)
@@ -89,7 +90,7 @@ def list_dispatch_queue():
     sort = request.args.get("sort", "newest").strip().lower()
     if search:
         term = f"%{search}%"
-        query = query.filter(or_(Application.application_id.ilike(term), Application.applicant.has(Application.applicant.property.mapper.class_.full_name.ilike(term))))
+        query = query.filter(or_(Application.application_id.ilike(term), User.full_name.ilike(term)))
     if status in {GENERATED_STATUS, DISPATCHED_STATUS}:
         query = query.filter(Application.status == status)
     query = query.order_by(Application.updated_at.asc() if sort == "oldest" else Application.updated_at.desc())

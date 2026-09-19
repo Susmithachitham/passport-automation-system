@@ -14,8 +14,11 @@ class Config:
     DB_HOST = os.getenv("DB_HOST", "localhost")
     DB_PORT = int(os.getenv("DB_PORT", "3306"))
     DB_USER = os.getenv("DB_USER", "root")
-    DB_PASSWORD = os.getenv("DB_PASSWORD", "Welcome@786")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "")
     DB_NAME = os.getenv("DB_NAME", "passport_automation")
+
+    FLASK_ENV = os.getenv("FLASK_ENV", "production")
+    DEBUG = os.getenv("FLASK_DEBUG", "false").lower() in {"1", "true", "yes"}
 
     SQLALCHEMY_DATABASE_URI = URL.create(
         drivername="mysql+pymysql",
@@ -27,14 +30,17 @@ class Config:
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOAD_FOLDER = os.path.join(os.getcwd(), "uploads", "documents")
+    UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", os.path.join(os.getcwd(), "uploads", "documents"))
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024
 
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
+    SESSION_COOKIE_SECURE = os.getenv("SESSION_COOKIE_SECURE", "false").lower() in {"1", "true", "yes"}
+    PERMANENT_SESSION_LIFETIME = 3600
 
 
 class TestConfig(Config):
     TESTING = True
     SECRET_KEY = "test-secret"
     SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    SESSION_COOKIE_SECURE = False

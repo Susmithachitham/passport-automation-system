@@ -1,6 +1,6 @@
 # Passport Automation System — Development Guide
 
-This guide is for developers joining the project. The current implementation includes the complete, verified Phase 1 Authentication, Phase 2 Applicant, Phase 3 Passport Officer, Phase 4 Police Verification, Phase 5 Passport Generation, and Phase 6 Admin Dispatch modules. Phase 7 is not implemented.
+This guide is for developers joining the project. The current implementation includes the complete, verified Phase 1 Authentication, Phase 2 Applicant, Phase 3 Passport Officer, Phase 4 Police Verification, Phase 5 Passport Generation, Phase 6 Admin Dispatch, and Phase 7 Final Integration modules. All phases are deployment-ready.
 
 ## 1. Clone the Repository
 
@@ -100,7 +100,17 @@ The automated tests use an in-memory SQLite database and should not modify the M
 
 ## 10. Open the Application
 
-Open `http://127.0.0.1:5000/` in a browser. The current frontend serves the authentication pages and Applicant Module screens.
+Open `http://127.0.0.1:5000/` in a browser. The frontend serves authentication, applicant dashboard with status timeline, officer review, police verification, admin passport generation, and admin dispatch.
+
+## Phase 7 Highlights
+
+- Centralized error handling with JSON responses for 400/401/403/404/409/413/422/500 without exposing stack traces.
+- Security headers (X-Content-Type-Options, X-Frame-Options, X-XSS-Protection).
+- Deployment-ready `config.py` with `FLASK_ENV`, `FLASK_DEBUG`, `SESSION_COOKIE_SECURE`, and production defaults.
+- Applicant status timeline at `/application-details.html?application_id=<id>` covering all 8 stages through `PASSPORT_DISPATCHED`.
+- Responsive table wrappers and mobile polish via `frontend/css/style.css`.
+- Transaction-safe dispatch and passport generation with `IntegrityError` duplicate protection.
+- Full test suite (82 tests) plus E2E workflow verification.
 
 ## Codebase Guide
 
@@ -145,4 +155,4 @@ Do not directly modify another person's branch. Do not commit or push from a tas
 - Preserve the existing Phase 1 and Phase 2 behavior.
 - Consider existing data before changing database structures.
 - Do not use browser `localStorage` as a database.
-- Do not start Phase 7 until the project owner approves it. Phase 6 does not include deployment or final integration.
+- Phase 7 is complete and the system is deployment-ready; do not claim an earlier phase as incomplete.
