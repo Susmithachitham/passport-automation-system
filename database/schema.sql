@@ -28,6 +28,11 @@ CREATE TABLE IF NOT EXISTS applications (
     family_details JSON NULL,
     passport_details JSON NULL,
     submitted_at TIMESTAMP NULL,
+    forwarded_by_id INT UNSIGNED NULL,
+    forwarded_at TIMESTAMP NULL,
+    rejected_by_id INT UNSIGNED NULL,
+    rejection_reason TEXT NULL,
+    rejected_at TIMESTAMP NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT fk_applications_user FOREIGN KEY (applicant_id) REFERENCES users(id) ON DELETE CASCADE
@@ -46,7 +51,25 @@ CREATE TABLE IF NOT EXISTS documents (
     rejection_reason TEXT NULL,
     uploaded_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     verified_at TIMESTAMP NULL,
+    verified_by_id INT UNSIGNED NULL,
+    verification_remarks TEXT NULL,
     CONSTRAINT fk_documents_application FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS interviews (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    application_id INT UNSIGNED NOT NULL,
+    officer_id INT UNSIGNED NOT NULL,
+    scheduled_date DATE NOT NULL,
+    scheduled_time TIME NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    interview_mode VARCHAR(30) NOT NULL DEFAULT 'IN_PERSON',
+    status VARCHAR(30) NOT NULL DEFAULT 'SCHEDULED',
+    officer_remarks TEXT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_interviews_application FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
+    CONSTRAINT fk_interviews_officer FOREIGN KEY (officer_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS payments (
@@ -59,4 +82,32 @@ CREATE TABLE IF NOT EXISTS payments (
     paid_at TIMESTAMP NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_payments_application FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS police_verifications (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    application_id INT UNSIGNED NOT NULL UNIQUE,
+    police_officer_id INT UNSIGNED NOT NULL,
+    verification_status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+    verification_date TIMESTAMP NULL,
+    address_verified BOOLEAN NULL,
+    identity_verified BOOLEAN NULL,
+    applicant_found BOOLEAN NULL,
+    criminal_record_found BOOLEAN NULL,
+    remarks TEXT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_police_verifications_application FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
+    CONSTRAINT fk_police_verifications_officer FOREIGN KEY (police_officer_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS passports (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    application_id INT UNSIGNED NOT NULL UNIQUE,
+    passport_number VARCHAR(32) NOT NULL UNIQUE,
+    issue_date DATE NOT NULL,
+    expiry_date DATE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT fk_passports_application FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE
 );

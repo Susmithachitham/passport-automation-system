@@ -17,7 +17,7 @@ async function loginUser(event) {
             body: JSON.stringify(formDataToObject(event.currentTarget)),
         });
         showMessage(`Logged in as ${response.user.role}.`, "success");
-        const redirectTarget = response.user.role === "applicant" ? "/dashboard.html" : "/";
+        const redirectTarget = response.user.role === "applicant" ? "/dashboard.html" : response.user.role === "officer" ? "/officer-dashboard.html" : response.user.role === "police" ? "/police-dashboard.html" : response.user.role === "admin" ? "/admin-passport-generation.html" : "/";
         window.setTimeout(() => { window.location.href = redirectTarget; }, 700);
     } catch (error) {
         showMessage(error.message);

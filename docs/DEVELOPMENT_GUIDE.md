@@ -1,6 +1,6 @@
 # Passport Automation System — Development Guide
 
-This guide is for developers joining the project. The current implementation includes Phase 1 authentication and the complete, verified Phase 2 Applicant Module. Phase 3 and later modules are not implemented.
+This guide is for developers joining the project. The current implementation includes the complete, verified Phase 1 Authentication, Phase 2 Applicant, Phase 3 Passport Officer, Phase 4 Police Verification, and Phase 5 Passport Generation modules. Phase 6 dispatch and later modules are not implemented.
 
 ## 1. Clone the Repository
 
@@ -57,7 +57,7 @@ Ensure MySQL is running, then execute the schema:
 mysql -u root -p < database\schema.sql
 ```
 
-The schema creates the `passport_automation` database and the current tables for users, applications, documents, and payments.
+The schema creates the `passport_automation` database and the current tables for users, applications, documents, payments, interviews, police verifications, and passports.
 
 ## 6. Initialize the Schema
 
@@ -107,8 +107,8 @@ Open `http://127.0.0.1:5000/` in a browser. The current frontend serves the auth
 - `app.py`: Flask app creation, blueprint registration, startup setup, and frontend page serving.
 - `config.py`: environment-backed configuration, database URI, upload path, and session settings.
 - `backend/extensions.py`: shared Flask-SQLAlchemy extension.
-- `backend/models/`: SQLAlchemy models for users, applications, documents, and payments.
-- `backend/routes/`: authentication and applicant API blueprints.
+- `backend/models/`: SQLAlchemy models for users, applications, documents, payments, interviews, police verifications, and passports.
+- `backend/routes/`: authentication, applicant, officer, police, and passport-generation API blueprints.
 - `backend/utils/`: authentication decorators and related helpers.
 - `frontend/`: HTML pages, CSS, and browser-side JavaScript.
 - `database/schema.sql`: MySQL database and table definitions.
@@ -145,4 +145,4 @@ Do not directly modify another person's branch. Do not commit or push from a tas
 - Preserve the existing Phase 1 and Phase 2 behavior.
 - Consider existing data before changing database structures.
 - Do not use browser `localStorage` as a database.
-- Do not start Phase 3 until the project owner approves it.
+- Do not start Phase 6 until the project owner approves it. Phase 5 does not include dispatch.

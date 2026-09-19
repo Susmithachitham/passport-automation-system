@@ -49,7 +49,7 @@ async function fetchDashboardData() {
                                 <span>Last Updated: ${new Date(app.updated_at || app.created_at).toLocaleDateString()}</span>
                             </div>
                         </div>
-                        <button class="button-secondary" data-application-id="${app.application_id}">View Details</button>
+                        ${app.passport ? `<a class="button-secondary" href="/passport-details.html?application_id=${app.application_id}">View Passport</a>` : `<button class="button-secondary" data-application-id="${app.application_id}">View Details</button>`}
                     </div>
                 </div>
             `;

@@ -24,6 +24,8 @@ class Document(db.Model):
         default=lambda: datetime.now(timezone.utc),
     )
     verified_at = db.Column(db.DateTime(timezone=True), nullable=True)
+    verified_by_id = db.Column(mysql.INTEGER(unsigned=True), db.ForeignKey("users.id"), nullable=True)
+    verification_remarks = db.Column(db.Text, nullable=True)
 
     def to_dict(self):
         return {
@@ -39,4 +41,6 @@ class Document(db.Model):
             "rejection_reason": self.rejection_reason,
             "uploaded_at": self.uploaded_at.isoformat() if self.uploaded_at else None,
             "verified_at": self.verified_at.isoformat() if self.verified_at else None,
+            "verified_by_id": self.verified_by_id,
+            "verification_remarks": self.verification_remarks,
         }

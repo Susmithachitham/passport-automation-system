@@ -9,6 +9,7 @@ load_dotenv()
 
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-key")
+    PASSPORT_VALIDITY_YEARS = int(os.getenv("PASSPORT_VALIDITY_YEARS", "10"))
 
     DB_HOST = os.getenv("DB_HOST", "localhost")
     DB_PORT = int(os.getenv("DB_PORT", "3306"))

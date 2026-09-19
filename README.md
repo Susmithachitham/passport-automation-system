@@ -2,7 +2,7 @@
 
 ## Project Description
 
-The Passport Automation System is a Flask and MySQL application for managing passport applications, applicant documents, mock payments, and application status tracking. It currently delivers the foundation/authentication work and the complete Applicant Module.
+The Passport Automation System is a Flask and MySQL application for managing passport applications, applicant documents, mock payments, application status tracking, Officer and Police review, and simulated passport generation. It currently delivers complete, verified Phase 1 through Phase 5 functionality.
 
 ## Problem Statement
 
@@ -28,7 +28,7 @@ Passport applications often rely on fragmented forms, manual document handling, 
 
 ## User Roles
 
-The data model supports `applicant`, `officer`, `police`, and `admin` roles. Only the Applicant Module is implemented in the current release; the other roles are reserved for future phases.
+The data model supports `applicant`, `officer`, `police`, and `admin` roles. Applicant, Officer, Police, and Admin-only passport generation workflows are implemented; dispatch and later workflows are reserved for future phases.
 
 ## Technology Stack
 
@@ -45,13 +45,13 @@ The data model supports `applicant`, `officer`, `police`, and `admin` roles. Onl
 
 - ✅ COMPLETE: Phase 1 - Foundation and Authentication
 - ✅ COMPLETE: Phase 2 - Applicant Module, including live verification
-- ⏳ NOT STARTED: Phase 3 - Passport Officer Module
-- ⏳ NOT STARTED: Phase 4 - Police Verification Module
-- ⏳ NOT STARTED: Phase 5 - Admin Module
-- ⏳ NOT STARTED: Phase 6 - Passport Generation and Dispatch
+- ✅ COMPLETE: Phase 3 - Passport Officer Module, including live verification
+- ✅ COMPLETE: Phase 4 - Police Verification Module, including live verification
+- ✅ COMPLETE: Phase 5 - Passport Generation Module, including live verification
+- ⏳ NOT STARTED: Phase 6 - Admin / Passport Dispatch
 - ⏳ NOT STARTED: Phase 7 - Final Integration, Security, and Testing
 
-Phase 2 verification completed 20 automated tests and a live flow covering login, dashboard access, application creation and update, five document uploads, mock payment, submission, and final `SUBMITTED` status.
+Phase 2 verification completed 20 automated tests and a live applicant flow. Phase 3 adds 21 Officer tests and a live Officer flow through document verification, interview completion, and `POLICE_VERIFICATION` forwarding. Phase 4 adds 15 Police tests and live CLEAR/NOT_CLEAR verification flows. Phase 5 adds 14 Passport Generation tests and live Admin generation/retrieval verification.
 
 ## Project Structure
 
@@ -97,7 +97,7 @@ Use `.env.example` as the safe template. Set a strong local `SECRET_KEY`, databa
 
 ## Database Setup
 
-`database/schema.sql` creates the `passport_automation` database and the `users`, `applications`, `documents`, and `payments` tables. `database/seed.py` creates or refreshes local demo users and hashes their passwords; it requires the four `DEMO_*_PASSWORD` variables to be set.
+`database/schema.sql` creates the `passport_automation` database and the `users`, `applications`, `documents`, `payments`, `interviews`, `police_verifications`, and `passports` tables. Phase 3, Phase 4, and Phase 5 also add non-destructive workflow fields. `database/seed.py` creates or refreshes local demo users and hashes their passwords; it requires the four `DEMO_*_PASSWORD` variables to be set.
 
 ## Run Backend and Tests
 
@@ -144,17 +144,44 @@ Authentication endpoints are under `/api/auth`: registration, login, logout, and
 
 All applicant endpoints require an authenticated applicant session and enforce application ownership.
 
+Officer endpoints are under `/api/officer` and require an authenticated `officer` session:
+
+- `GET /api/officer/dashboard`
+- `GET /api/officer/applications`
+- `GET /api/officer/applications/<application_id>`
+- `GET /api/officer/applications/<application_id>/documents`
+- `POST /api/officer/applications/<application_id>/documents/<document_id>/verify`
+- `POST /api/officer/applications/<application_id>/documents/<document_id>/reject`
+- `POST/GET/PUT /api/officer/applications/<application_id>/interview`
+- `POST /api/officer/applications/<application_id>/interview/complete`
+- `POST /api/officer/applications/<application_id>/forward-to-police`
+- `POST /api/officer/applications/<application_id>/reject`
+
+Police endpoints are under `/api/police` and require an authenticated `police` session:
+
+- `GET /api/police/dashboard`
+- `GET /api/police/applications`
+- `GET /api/police/applications/<application_id>`
+- `GET /api/police/applications/<application_id>/verification`
+- `POST/PUT /api/police/applications/<application_id>/verification`
+
+Passport Generation endpoints are under `/api/admin/passports` and require an authenticated `admin` session:
+
+- `GET /api/admin/passports/eligible`
+- `POST /api/admin/passports/generate/<application_id>`
+- `GET /api/passports/<application_id>` for an authorized Admin or owning Applicant
+
 ## Development Phases
 
 - ✅ COMPLETE: Phase 1 - Foundation and Authentication
 - ✅ COMPLETE: Phase 2 - Applicant Module
-- ⏳ NOT STARTED: Phase 3 - Passport Officer Module
-- ⏳ NOT STARTED: Phase 4 - Police Verification Module
-- ⏳ NOT STARTED: Phase 5 - Admin Module
-- ⏳ NOT STARTED: Phase 6 - Passport Generation and Dispatch
+- ✅ COMPLETE: Phase 3 - Passport Officer Module
+- ✅ COMPLETE: Phase 4 - Police Verification Module
+- ✅ COMPLETE: Phase 5 - Passport Generation Module
+- ⏳ NOT STARTED: Phase 6 - Admin / Passport Dispatch
 - ⏳ NOT STARTED: Phase 7 - Final Integration, Security, and Testing
 
-Do not claim or implement Phase 3 or later work without an explicit project decision.
+Do not claim or implement Phase 6 or later work without an explicit project decision. Phase 5 does not include dispatch.
 
 ## Collaboration Instructions
 
@@ -169,4 +196,4 @@ Recommended branch names include `feature/phase-3-officer-module`, `feature/phas
 
 ## Future Development Roadmap
 
-Future work is intentionally not implemented yet: officer review and document verification, police verification, administration, passport generation and dispatch, then final integration, security hardening, and broader testing.
+Future work is intentionally not implemented yet: passport dispatch, then final integration, security hardening, and broader testing.
